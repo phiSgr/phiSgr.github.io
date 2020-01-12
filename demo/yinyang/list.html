@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Branching timelines with the List monad</title>
+  <script src="https://unpkg.com/arrow-playground@1" data-selector=".kotlin-code"></script>
+  <link rel="stylesheet" href="styles/index.processed.css">
+</head>
+<body>
+  <div class="kotlin-code" data-executable="true" lines="true" from="5" to="10">
+    <pre><code>
+import arrow.core.*
+import arrow.core.extensions.*
+
+fun main(args: Array&lt;String&gt;) {
+    ListK.fx {
+      val (i) = listOf(1, 2, 3).k()
+      println(i)
+      val (j) = (1..i).toList().k()
+      println(&quot;($i, $j)&quot;)
+    }
+}
+
+    </code></pre>
+  </div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Yin-yang in Kotlin</title>
+  <script src="https://unpkg.com/arrow-playground@1" data-selector=".kotlin-code"></script>
+  <link rel="stylesheet" href="styles/index.processed.css">
+</head>
+<body>
+  <div class="kotlin-code" data-executable="true" lines="true">
+    <pre><code>
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.resume
+import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
+import arrow.typeclasses.stateStack
+
+data class Cont(
+    val cont: Continuation&lt;Cont&gt;,
+    val stateStack: List&lt;Map&lt;String, *&gt;&gt;
+) : (Cont) -&gt; Unit {
+    override fun invoke(p1: Cont) {
+        cont.stateStack = stateStack
+        cont.resume(p1)
+    }
+}
+
+suspend fun captureCont(): Cont = suspendCoroutineUninterceptedOrReturn { c -&gt;
+    Cont(c, stateStack = c.stateStack)
+}
+
+suspend fun main() {
+    val yin = captureCont()
+    println(&quot;@&quot;)
+
+    val yang = captureCont()
+    print(&quot;*&quot;)
+
+    yin(yang)
+}
+
+    </code></pre>
+  </div>
+</body>
+</html>
